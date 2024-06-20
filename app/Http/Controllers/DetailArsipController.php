@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Detail_arsip;
+use App\Models\Detail_Arsip;
 use Illuminate\Http\Request;
 
 class DetailArsipController extends Controller
@@ -12,7 +12,8 @@ class DetailArsipController extends Controller
      */
     public function index()
     {
-        //
+        $detailarsip = Detail_Arsip::orderBy('created_at','DESC')->get();
+        return view('detail_arsip.index',compact('detailarsip'));
     }
 
     /**
@@ -20,7 +21,8 @@ class DetailArsipController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('detail_arsip.create');
     }
 
     /**
@@ -28,38 +30,45 @@ class DetailArsipController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        arsip::create($request->all());
+        return redirect()->route('detail_arsip')->with('success','Kantor Induk di tambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Detail_arsip $detail_arsip)
+    public function show(string $id)
     {
-        //
+        $detailarsip= DetailArsip::findOrFail($id);
+        return view('detail_arsip.show',compact('detailarsip'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Detail_arsip $detail_arsip)
+    public function edit(string $id)
     {
-        //
+        $detailarsip= DetailArsip::findOrFail($id);
+        return view('detail_arsip.edit',compact('detailarsip'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Detail_arsip $detail_arsip)
+    public function update(Request $request, string $id)
     {
-        //
+        $detailarsip= DetailArsip::findOrFail($id);
+        $detailarsip->update($request->all());
+        return redirect()->route('detail_arsip')->with('success','Kantor Induk telah di ubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Detail_arsip $detail_arsip)
+    public function destroy(string $id)
     {
-        //
+        $kantor = arsip::findOrFail($id);
+        $kantor->delete();
+        return redirect()->route('detail-arsip')->with('success','Kantor Induk telah di hapus');
     }
 }

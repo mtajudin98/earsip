@@ -12,7 +12,8 @@ class PeminjamanController extends Controller
      */
     public function index()
     {
-        //
+        $peminjaman = Peminjaman::orderBy('created_at','DESC')->get();
+        return view('peminjaman.index',compact('peminjaman'));
     }
 
     /**
@@ -20,7 +21,8 @@ class PeminjamanController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('peminjaman.create');
     }
 
     /**
@@ -28,38 +30,45 @@ class PeminjamanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Peminjaman::create($request->all());
+        return redirect()->route('peminjaman')->with('success','Kantor Induk di tambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Peminjaman $peminjaman)
+    public function show(string $id)
     {
-        //
+        $peminjaman = Peminjaman::findOrFail($id);
+        return view('peminjaman.show',compact('peminjaman'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Peminjaman $peminjaman)
+    public function edit(string $id)
     {
-        //
+        $peminjaman = Peminjaman::findOrFail($id);
+        return view('peminjaman.edit',compact('peminjaman'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Peminjaman $peminjaman)
+    public function update(Request $request, string $id)
     {
-        //
+        $kantor = Peminjaman::findOrFail($id);
+        $kantor->update($request->all());
+        return redirect()->route('peminjaman')->with('success','Kantor Induk telah di ubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Peminjaman $peminjaman)
+    public function destroy(string $id)
     {
-        //
+        $kantor = Peminjaman::findOrFail($id);
+        $kantor->delete();
+        return redirect()->route('peminjaman')->with('success','Kantor Induk telah di hapus');
     }
 }

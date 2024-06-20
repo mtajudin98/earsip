@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('group_dokumens', function (Blueprint $table) {
-            $table->string('kode_grup',length:10);
-            $table->string('nama_grup',length:100);
+            $table->id();
+            $table->string('kode_group',length:10);
+            $table->string('nama_group',length:100);
             $table->timestamps();
         });
     }

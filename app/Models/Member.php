@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'kode_induk','nama_induk','telp','alamat'
+    ];
 }

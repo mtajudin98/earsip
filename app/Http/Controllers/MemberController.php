@@ -12,7 +12,8 @@ class MemberController extends Controller
      */
     public function index()
     {
-        //
+        $kantorinduk = Kantor_Induk::orderBy('created_at','DESC')->get();
+        return view('kantor_induk.index',compact('kantorinduk'));
     }
 
     /**
@@ -20,7 +21,8 @@ class MemberController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('kantor_induk.create');
     }
 
     /**
@@ -28,38 +30,52 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Kantor_Induk::create($request->all());
+        return redirect()->route('kantor_induk')->with('success','Kantor Induk di tambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Member $member)
+    public function show(string $id)
     {
-        //
+        $kantorinduk = Kantor_Induk::findOrFail($id);
+        return view('kantor_induk.show',compact('kantorinduk'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Member $member)
+    public function edit(string $id)
     {
-        //
+        $kantorinduk = Kantor_Induk::findOrFail($id);
+        return view('kantor_induk.edit',compact('kantorinduk'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Member $member)
+    public function update(Request $request, string $id)
     {
-        //
+        $kantor = Kantor_Induk::findOrFail($id);
+        $kantor->update($request->all());
+        return redirect()->route('kantor_induk')->with('success','Kantor Induk telah di ubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Member $member)
+    public function destroy(string $id)
     {
-        //
+        $kantor = Kantor_Induk::findOrFail($id);
+        $kantor->delete();
+        return redirect()->route('kantor_induk')->with('success','Kantor Induk telah di hapus');
+    }
+
+    public function home1(){
+        return view('dashboard-member');
+    }
+    public function home2(){
+        return view('dashboard-manajer');
     }
 }

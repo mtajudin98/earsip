@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('unit_kerjas', function (Blueprint $table) {
+            $table->id();
             $table->string('kode_unit',length:10);
             $table->string('nama_unit',length:150);
+            $table->string('telp',length:13);
+            $table->string('alamat',length:150);
             $table->string('kode_induk',length:10);
             $table->timestamps();
         });

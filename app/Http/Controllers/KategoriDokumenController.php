@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori_dokumen;
+use App\Models\Kantor_induk;
 use Illuminate\Http\Request;
 
-class KategoriDokumenController extends Controller
+class KantorIndukController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $kantorinduk = Kantor_Induk::orderBy('created_at','DESC')->get();
+        return view('kantor_induk.index',compact('kantorinduk'));
     }
 
     /**
@@ -20,7 +21,8 @@ class KategoriDokumenController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('kantor_induk.create');
     }
 
     /**
@@ -28,38 +30,45 @@ class KategoriDokumenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Kantor_Induk::create($request->all());
+        return redirect()->route('kantor_induk')->with('success','Kantor Induk di tambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Kategori_dokumen $kategori_dokumen)
+    public function show(string $id)
     {
-        //
+        $kantorinduk = Kantor_Induk::findOrFail($id);
+        return view('kantor_induk.show',compact('kantorinduk'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kategori_dokumen $kategori_dokumen)
+    public function edit(string $id)
     {
-        //
+        $kantorinduk = Kantor_Induk::findOrFail($id);
+        return view('kantor_induk.edit',compact('kantorinduk'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kategori_dokumen $kategori_dokumen)
+    public function update(Request $request, string $id)
     {
-        //
+        $kantor = Kantor_Induk::findOrFail($id);
+        $kantor->update($request->all());
+        return redirect()->route('kantor_induk')->with('success','Kantor Induk telah di ubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kategori_dokumen $kategori_dokumen)
+    public function destroy(string $id)
     {
-        //
+        $kantor = Kantor_Induk::findOrFail($id);
+        $kantor->delete();
+        return redirect()->route('kantor_induk')->with('success','Kantor Induk telah di hapus');
     }
 }
